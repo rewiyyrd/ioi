@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+int main() {
+    int day;
+
+    printf("Введіть номер дня тижня (1-7)>>> ");
+    scanf("%d", &day);
+
+    switch(day) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+            printf("Робочий день\n");
+            break;
+        case 6:
+            printf("Субота\n");
+            break;
+        case 7:
+            printf("Неділя\n");
+            break;
+        default:
+            printf("Неправильний номер дня тижня\n");
+    }
+
+    return 0;
+}
