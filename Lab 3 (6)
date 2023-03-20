@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main() {
+  float kwh, price, tariff;
+
+  printf("Введіть кількість спожитої електроенергії в кВт-год: ");
+  scanf("%f", &kwh);
+
+  printf("Введіть заплачену суму грошей за електроенергію: ");
+  scanf("%f", &price);
+
+  tariff = price / kwh;
+
+  printf("Тариф оплати за електроенергію: %.2f грн/кВт-год\n", tariff);
+
+  return 0;
+}
