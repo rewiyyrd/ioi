@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+int main() {
+   double num, min;
+   printf("Введіть послідовність дійсних чисел (введіть 0 для завершення)>>> ");
+   scanf("%lf", &num);
+   min = num;
+   
+   while (num != 0) {
+      if (num < min) {
+         min = num;
+      }
+      scanf("%lf", &num);
+   }
+
+   printf("Мінімальне число>>> %lf", min);
+   return 0;
+}
