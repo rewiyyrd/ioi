@@ -1,48 +1,42 @@
 #include <stdio.h>
 
 #define ROWS 3
-#define COLS 4
-
-void sortRows(int arr[][COLS], int rows);
+#define COLS 3
 
 int main() {
-    int arr[ROWS][COLS] = {
-        {4, 6, 2, 8},
-        {1, 3, 5, 7},
-        {9, 0, 3, 2}
-    };
-    
-    printf("До відсортування:\n");
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLS; j++) {
-            printf("%d ", arr[i][j]);
-        }
-        printf("\n");
-    }
-    
-    sortRows(arr, ROWS);
-    
-    printf("Відсортований:\n");
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLS; j++) {
-            printf("%d ", arr[i][j]);
-        }
-        printf("\n");
-    }
-    
-    return 0;
-}
+    int arr[ROWS][COLS], i, j, k, temp;
 
-void sortRows(int arr[][COLS], int rows) {
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < COLS - 1; j++) {
-            for (int k = j + 1; k < COLS; k++) {
+    // введення елементів в масив з клавіатури
+    printf("Введіть елементи масиву>>>\n");
+    for (i = 0; i < ROWS; i++) {
+        for (j = 0; j < COLS; j++) {
+            printf("Елемент [%d][%d]>>> ", i, j);
+            scanf("%d", &arr[i][j]);
+        }
+    }
+
+    // сортування елементів масиву за зростанням
+    for (i = 0; i < ROWS; i++) {
+        for (j = 0; j < COLS; j++) {
+            for (k = j + 1; k < COLS; k++) {
                 if (arr[i][j] > arr[i][k]) {
-                    int temp = arr[i][j];
+                    // міняємо місцями елементи
+                    temp = arr[i][j];
                     arr[i][j] = arr[i][k];
                     arr[i][k] = temp;
                 }
             }
         }
     }
+
+    // виведення відсортованих елементів
+    printf("\nВідсортовані елементи масиву>>>\n");
+    for (i = 0; i < ROWS; i++) {
+        for (j = 0; j < COLS; j++) {
+            printf("%d ", arr[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
 }
