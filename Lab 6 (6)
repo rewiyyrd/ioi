@@ -1,13 +1,26 @@
 #include <stdio.h>
+#include <ctype.h>
 
-int main()
-{
-    int isUpperCase(char c) {
-    if (c >= 'A' && c <= 'Z') {
+int check_uppercase(char c) {
+    if (!isalpha(c)) {
+        printf("Помилка\n");
+        return 0;
+    }
+    
+    if (isupper(c)) {
         return 1;
     } else {
         return 0;
     }
 }
 
+int main() {
+    char c;
+    printf("Введіть символ: ");
+    scanf("%c", &c);
+    int result = check_uppercase(c);
+    
+    printf("Результат: %d\n", result);
+    
+    return 0;
 }
