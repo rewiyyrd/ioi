@@ -2,43 +2,31 @@
 #include <string.h>
 #include <ctype.h>
 
-#define MAX_LENGTH 100
-
 int main() {
-    char name[MAX_LENGTH], surname[MAX_LENGTH], patronymic[MAX_LENGTH];
+    char name[100];
+    printf("Введіть прізвище, ім'я та по батькові (з пропусками): ");
+    fgets(name, sizeof(name), stdin); // використовуємо fgets для введення строки з пробілами
+
     int i;
-
-    printf("Введіть ваше ім'я, прізвище та по батькові через пробіл>>> ");
-    scanf("%s %s %s", name, surname, patronymic);
-
-    // Перевірка на наявність пробілів у кожному введеному рядку
-    if (strchr(name, ' ') || strchr(surname, ' ') || strchr(patronymic, ' ')) {
-        printf("Помилка! ім'я, прізвище та по батькові повинні бути введені без пробілів.\n");
-        return 1;
-    }
-
-    // Перевірка на наявність неприпустимих символів у кожному введеному рядку
-    for (i = 0; i < strlen(name); i++) {
-        if (!isalpha(name[i])) {
-            printf("Помилка! в імені знайдено неприпустимий символ '%c'.\n", name[i]);
-            return 1;
-        }
-    }
-    for (i = 0; i < strlen(surname); i++) {
-        if (!isalpha(surname[i])) {
-            printf("Помилка! в прізвищі знайдено неприпустимий символ '%c'.\n", surname[i]);
-            return 1;
-        }
-    }
-    for (i = 0; i < strlen(patronymic); i++) {
-        if (!isalpha(patronymic[i])) {
-            printf("Помилка! в по батькові знайдено неприпустимий символ '%c'.\n", patronymic[i]);
+    int len = strlen(name);
+    for (i = 0; i < len; i++) {
+        if (!isalpha(name[i]) && !isspace(name[i])) {
+            printf("Помилка\n");
             return 1;
         }
     }
 
-    // Виведення введеного тексту без пропусків
-    printf("%s %s %s\n", surname, name, patronymic);
+    // видаляємо пробіли з імені
+    char *ptr = name;
+    while (*ptr != '\0') {
+        if (*ptr == ' ') {
+            memmove(ptr, ptr + 1, strlen(ptr));
+        } else {
+            ptr++;
+        }
+    }
 
+    printf("%s\n", name);
     return 0;
 }
+
