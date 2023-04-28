@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int rows, cols, i, j, temp;
+    int **arr;
+
+    printf("Число рядків: ");
+    scanf("%d", &rows);
+
+    printf("Число стовпців: ");
+    scanf("%d", &cols);
+
+    // виділення пам'яті для масиву
+    arr = (int **)malloc(rows * sizeof(int *));
+    for (i = 0; i < rows; i++) {
+        arr[i] = (int *)malloc(cols * sizeof(int));
+    }
+
+    // введення елементів масиву
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < cols; j++) {
+            printf("Введіть елемент[%d][%d]: ", i, j);
+            scanf("%d", (*(arr + i) + j));
+        }
+    }
+
+    // сортування елементів масиву по рядках
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < cols - 1; j++) {
+            if (*(*(arr + i) + j) > *(*(arr + i) + j + 1)) {
+                temp = *(*(arr + i) + j);
+                *(*(arr + i) + j) = *(*(arr + i) + j + 1);
+                *(*(arr + i) + j + 1) = temp;
+            }
+        }
+    }
+
+    // виведення відсортованого масиву
+    printf("\nВідсортаваний масив:\n");
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < cols; j++) {
+            printf("%d\t", *(*(arr + i) + j));
+        }
+        printf("\n");
+    }
+
+    // звільнення пам'яті, виділеної для масиву
+    for (i = 0; i < rows; i++) {
+        free(arr[i]);
+    }
+    free(arr);
+
+    return 0;
+}
