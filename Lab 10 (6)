@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+struct TV {
+    char model[50];
+    float diagonal;
+    int price;
+    int has_satellite_tuner;
+    int color_decoding_systems;
+};
+
+int main() {
+    int n;
+    printf("Enter the number of TVs: ");
+    scanf("%d", &n);
+
+    struct TV tvs[n];
+    for (int i = 0; i < n; i++) {
+        printf("TV %d:\n", i+1);
+        printf("Enter the model: ");
+        scanf("%s", tvs[i].model);
+        printf("Enter the diagonal (in cm): ");
+        scanf("%f", &tvs[i].diagonal);
+        printf("Enter the price (in USD): ");
+        scanf("%d", &tvs[i].price);
+        printf("Enter 1 if the TV has a satellite tuner, otherwise enter 0: ");
+        scanf("%d", &tvs[i].has_satellite_tuner);
+        printf("Enter the number of color decoding systems: ");
+        scanf("%d", &tvs[i].color_decoding_systems);
+    }
+
+    printf("TVs with diagonal less than 54cm and price less than 600USD:\n");
+    for (int i = 0; i < n; i++) {
+        if (tvs[i].diagonal < 54 && tvs[i].price < 600) {
+            printf("Model: %s\n", tvs[i].model);
+            printf("Diagonal: %.2f cm\n", tvs[i].diagonal);
+            printf("Price: %d USD\n", tvs[i].price);
+            printf("Satellite tuner: %s\n", tvs[i].has_satellite_tuner ? "Yes" : "No");
+            printf("Color decoding systems: %d\n", tvs[i].color_decoding_systems);
+        }
+    }
+
+    return 0;
+}
