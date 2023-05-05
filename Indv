@@ -1,0 +1,90 @@
+def ask_question(question, options):
+    """Функція для задання запитання та отримання відповіді користувача"""
+    while True:
+        print(question)
+        for i, option in enumerate(options, start=1):
+            print(f'{i}. {option}')
+        try:
+            choice = int(input('Введіть номер варіанту: '))
+            if 1 <= choice <= len(options):
+                return options[choice-1]
+        except ValueError:
+            pass
+        print('Некоректний ввід, спробуйте ще раз.\n')
+
+        
+def filter_by_brand(laptops, brand):
+    """Функція для фільтрації ноутбуків за брендом"""
+    return [laptop for laptop in laptops if laptop['бренд'] == brand]
+
+
+def filter_by_screen_size(laptops, screen_size):
+    """Функція для фільтрації ноутбуків за розміром екрану"""
+    return [laptop for laptop in laptops if laptop['екран'] == screen_size]
+
+
+def filter_by_processor(laptops, processor):
+    """Функція для фільтрації ноутбуків за процесором"""
+    return [laptop for laptop in laptops if laptop['процесор'] == processor]
+
+
+def filter_by_ram(laptops, ram):
+    """Функція для фільтрації ноутбуків за обсягом оперативної пам'яті"""
+    return [laptop for laptop in laptops if laptop['оперативна пам\'ять'] == ram]
+
+
+def filter_by_storage(laptops, storage):
+    """Функція для фільтрації ноутбуків за обсягом накопичувача"""
+    return [laptop for laptop in laptops if laptop['накопичувач'] == storage]
+
+
+def filter_by_weight(laptops, weight):
+    """Функція для фільтрації ноутбуків за вагою"""
+    return [laptop for laptop in laptops if laptop['вага'] <= weight]
+
+
+# База знань
+laptops = [
+    {'бренд': 'Asus', 'модель': 'VivoBook S14', 'екран': 14, 'процесор': 'Intel Core i5', 'оперативна пам\'ять': 8, 
+     'накопичувач': 'SSD 512 ГБ', 'вага': 1.4},
+    {'бренд': 'HP', 'модель': 'Pavilion 15', 'екран': 15.6, 'процесор': 'AMD Ryzen 7', 'оперативна пам\'ять': 16, 
+     'накопичувач': 'HDD 1 ТБ', 'вага': 1.49},
+    {'бренд': 'Lenovo', 'модель': 'ThinkPad E15', 'екран': 15.6, 'процесор': 'Intel Core i7', 'оперативна пам\'ять': 16, 
+     'накопичувач': 'SSD 256 ГБ', 'вага': 1.9},
+    {'бренд': 'Dell', 'модель': 'Inspiron 15', 'екран': 15.6, 'процесор': 'Intel Core i3', 'оперативна пам\'ять': 4, 
+     'накопичувач': 'HDD 500 ГБ', 'вага': 1.96},
+    {'бренд': 'Apple', 'модель': 'MacBook Air', 'екран': 13.3, 'процесор': 'Apple M1', 'оперативна пам\'ять': 8, 
+     'накопичувач': 'SSD 256 ГБ', 'вага': 1.29},
+    {'бренд': 'Acer', 'модель': 'Swift 3', 'екран': 14, 'процесор': 'AMD Ryzen 5', 'оперативна пам\'ять': 8, 
+     'накопичувач': 'SSD 512 ГБ', 'вага': 1.2},
+]
+     
+     
+questions = [
+('Який бренд Вам більше подобається?', ['Asus', 'HP', 'Lenovo', 'Dell', 'Apple', 'Acer']),
+('Який розмір екрану Вам потрібен?', ['13.3', '14', '15.6']),
+('Який процесор Ви бажаєте?', ['Intel Core i3', 'Intel Core i5', 'Intel Core i7', 'AMD Ryzen 5', 'AMD Ryzen 7', 'Apple M1']),
+('Який обсяг оперативної пам\'яті Вам потрібен?', ['4', '8', '16']),
+('Який обсяг накопичувача Вам потрібен?', ['HDD 500 ГБ', 'SSD 256 ГБ', 'SSD 512 ГБ', 'HDD 1 ТБ']),
+('Яка максимальна вага Вас влаштовує?', ['1.2', '1.4', '1.9']),
+]
+
+def recommend_laptop():
+    brand = ask_question(*questions[0])
+    laptops = filter_by_brand(laptops, brand)
+    screen_size = ask_question(*questions[1])
+    laptops = filter_by_screen_size(laptops, float(screen_size))
+    processor = ask_question(*questions[2])
+    laptops = filter_by_processor(laptops, processor)
+    ram = ask_question(*questions[3])
+    laptops = filter_by_ram(laptops,int(ram))
+    storage = ask_question(*questions[4])
+    laptops = filter_by_storage(laptops, storage)
+    weight = ask_question(*questions[5])
+    laptops = filter_by_weight(laptops, float(weight))
+    if len(laptops) == 0:
+        print('На жаль, нам не вдалося підібрати ноутбук за Вашим запитом')
+    else:
+        print(f'Ми рекомендуємо Вам ноутбук {laptops[0]["бренд"]} {laptops[0]["модель"]}')
+
+recommend_laptop()
