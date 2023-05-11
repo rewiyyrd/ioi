@@ -68,7 +68,7 @@ questions = [
         ('Яка максимальна вага Вас влаштовує?', ['1.2', '1.4', '1.9']),
      ]
 
-def recommend_laptop():
+def recommend_laptop(laptops):
     """Функція для рекомендації ноутбука"""
     brand = ask_question(*questions[0])
     laptops = filter_by_brand(laptops, brand)
@@ -88,4 +88,4 @@ def recommend_laptop():
         print(f'Ми рекомендуємо Вам ноутбук {laptops[0]["бренд"]} {laptops[0]["модель"]}')
         
         
-recommend_laptop()
+recommend_laptop(laptops)
