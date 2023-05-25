@@ -1,0 +1,147 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_LENGTH 100
+
+// Структура для зберігання даних абонента
+typedef struct {
+    char first_name[MAX_LENGTH];
+    char last_name[MAX_LENGTH];
+    char middle_name[MAX_LENGTH];
+    char address[MAX_LENGTH];
+    int phone_number;
+    int installation_year;
+    int privileges;
+} Subscriber;
+
+// Функція для видалення абонента з файлу
+void deleteSubscriber(const char* filename, const char* pib) {
+    FILE* file = fopen(filename, "rb");
+    if (file == NULL) {
+        printf("Помилка при відкритті файлу\n");
+        return;
+    }
+
+    FILE* tempFile = fopen("temp.dat", "wb");
+    if (tempFile == NULL) {
+        printf("Помилка при створенні тимчасового файлу\n");
+        fclose(file);
+        return;
+    }
+
+    Subscriber subscriber;
+
+    while (fread(&subscriber, sizeof(Subscriber), 1, file)) {
+        if (strcmp(subscriber.last_name, pib) != 0) {
+            fwrite(&subscriber, sizeof(Subscriber), 1, tempFile);
+        }
+    }
+
+    fclose(file);
+    fclose(tempFile);
+
+    remove(filename);
+    rename("temp.dat", filename);
+
+    printf("Абонент з ПІБ %s був успішно видалений\n", pib);
+}
+
+// Функція для зміни ПІБ абонента в файлі
+void modifySubscriber(const char* filename, const char* old_pib, const char* new_pib) {
+    FILE* file = fopen(filename, "rb+");
+    if (file == NULL) {
+        printf("Помилка при відкритті файлу\n");
+        return;
+    }
+
+    Subscriber subscriber;
+
+    while (fread(&subscriber, sizeof(Subscriber), 1, file)) {
+        if (strcmp(subscriber.last_name, old_pib) == 0) {
+            strcpy(subscriber.last_name, new_pib);
+            fseek(file, -sizeof(Subscriber), SEEK_CUR);
+            fwrite(&subscriber, sizeof(Subscriber), 1, file);
+            break;
+        }
+    }
+
+    fclose(file);
+
+    printf("Абонент з ПІБ %s був успішно змінений на %s\n", old_pib, new_pib);
+}
+
+// Функція для додавання абонента до файлу
+void addSubscriber(const char* filename) {
+    FILE* file = fopen(filename, "ab");
+    if (file == NULL) {
+        printf("Помилка при відкритті файлу\n");
+        return;
+    }
+
+    Subscriber subscriber;
+
+    printf("Введіть ПІБ абонента: ");
+    scanf("%s", subscriber.last_name);
+
+    printf("Введіть адресу абонента: ");
+    scanf("%s", subscriber.address);
+
+    printf("Введіть рік установки телефону абонента: ");
+    scanf("%d", &subscriber.installation_year);
+
+    printf("Введіть номер телефону абонента: ");
+    scanf("%d", &subscriber.phone_number);
+
+    printf("Введіть наявність пільг у абонента (1 - є, 0 - немає): ");
+    scanf("%d", &subscriber.privileges);
+
+    fwrite(&subscriber, sizeof(Subscriber), 1, file);
+
+    fclose(file);
+
+    printf("Абонент був успішно доданий до файлу\n");
+}
+
+// Головна функція
+int main() {
+    char filename[] = "phonebook.dat";
+    int choice;
+    char pib[MAX_LENGTH];
+    char new_pib[MAX_LENGTH];
+
+    while (1) {
+        printf("\nТелефонний довідник\n");
+        printf("1. Видалити абонента\n");
+        printf("2. Змінити ПІБ абонента\n");
+        printf("3. Додати абонента\n");
+        printf("4. Вийти\n");
+        printf("Виберіть опцію: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Введіть ПІБ абонента для видалення: ");
+                scanf("%s", pib);
+                deleteSubscriber(filename, pib);
+                break;
+            case 2:
+                printf("Введіть ПІБ абонента, якому потрібно змінити: ");
+                scanf("%s", pib);
+                printf("Введіть новий ПІБ: ");
+                scanf("%s", new_pib);
+                modifySubscriber(filename, pib, new_pib);
+                break;
+            case 3:
+                addSubscriber(filename);
+                break;
+            case 4:
+                printf("Програма завершена\n");
+                return 0;
+            default:
+                printf("Невірний вибір, спробуйте ще раз\n");
+        }
+    }
+
+    return 0;
+}
