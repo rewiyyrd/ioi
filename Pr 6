@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+double power(double base, int exponent) {
+    double result = 1.0;
+
+    if (exponent > 0) {
+        for (int i = 0; i < exponent; i++) {
+            result *= base;
+        }
+    } else if (exponent < 0) {
+        for (int i = 0; i > exponent; i--) {
+            result /= base;
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    double base;
+    int exponent;
+    
+    printf("Введіть число: ");
+    scanf("%lf", &base);
+
+    printf("Введіть степінь: ");
+    scanf("%d", &exponent);
+
+    double result = power(base, exponent);
+    printf("Результат: %lf\n", result);
+
+    return 0;
+}
