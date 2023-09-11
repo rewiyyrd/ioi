@@ -1,0 +1,18 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    // Задані значення x, y, z
+    double x = -15.246;
+    double y = 4.642e-2;
+    double z = 20.001e2;
+
+    // Обчислення виразу
+    double alpha = log(pow(y, -sqrt(abs(x)))) * (x - y/2) + pow(sin(atan(z)), 2);
+
+    // Вивід результату
+    cout << "alpha = " << alpha << endl;
+
+    return 0;
+}
